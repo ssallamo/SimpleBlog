@@ -1,0 +1,43 @@
+<!-- views/posts/shows.ejs -->
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <% include ../partials/head %>
+    </head>
+    <body>
+        <% include ../partials/nav %>
+        <div class="container post post-show">
+            <% include ./partials/header %>
+
+            <div class="buttons">
+                <a class="btn btn-default" href="/posts">Back</a>
+                <% if(isAuthenticated && currentUser.id == post.author.id){ %> <!-- loggedin & owner -->
+                <a class="btn btn-info" href="/posts/<%= post._id %>/edit">Edit</a>
+                <form action="/posts/<%= post._id %>?_method=delete" method="post">
+                    <a class="btn btn-warning" href="#" onclick="confirm('Are you sure to delete this?')?this.parentElement.submit():null;">Delete</a>
+                </form>
+                <% } %>
+            </div>
+
+            <div class="contentBox">
+                <h3 class="contentBoxTop"><%= post.title %></h3>
+                <div class="row">
+                    <div class="col-sm-4 col-sm-push-8">
+                        <div class="post-info">
+                            <div><span>Author</span> : <%= post.author ? post.author.username : "" %></div>
+                            <div><span>Create</span> : <%= post.createdDate %> <%= post.createdTime %></div>
+                            <% if(post.updatedAt) { %>
+                            <div><span>Update</span> : <%= post.updatedDate %> <%= post.updatedTime %></div>
+                            <% } %>
+                        </div>
+                    </div>
+                    <div class="col-sm-8 col-sm-pull-4">
+                        <div class="post-body"><%= post.body %></div>
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- container end -->
+    </body>
+</html>
